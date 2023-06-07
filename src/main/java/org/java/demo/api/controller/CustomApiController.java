@@ -61,18 +61,12 @@ public class CustomApiController {
 		return new ResponseEntity<>(pizza, HttpStatus.OK);
 	}
 	
-	@PostMapping("/pizzas/edit/{id}")
-	public ResponseEntity<Pizza> createPizza(@PathVariable("id") Integer id, @RequestBody Pizza pizza) {
+	@PostMapping("/pizzas/update/{id}")
+	public ResponseEntity<Pizza> updatePizza(@PathVariable("id") Integer id, @RequestBody Pizza pizza) {
 		
-		Optional<Pizza> pizzaOpt = pizzaService.findById(id);
-		Pizza pizzaFound = pizzaOpt.get();
-		pizzaFound.setName(pizza.getName());
-		pizzaFound.setDescription(pizza.getDescription());
-		pizzaFound.setImgUrl(pizza.getImgUrl());
-		pizzaFound.setPriceInCents(pizza.getPriceInCents());
-		pizzaService.save(pizzaFound);
+		pizzaService.save(pizza);
 		
-		return new ResponseEntity<>(pizzaFound, HttpStatus.OK);
+		return new ResponseEntity<>(pizza, HttpStatus.OK);
 	}
 	
 }
