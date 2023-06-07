@@ -3,7 +3,9 @@ package org.java.demo.pojo;
 import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -18,6 +20,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Size;
 
 @Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class SpecialOffer {
 
 	
@@ -39,7 +42,6 @@ public class SpecialOffer {
 	
 	@ManyToOne
 	@JoinColumn(nullable = false)
-	@JsonBackReference
 	private Pizza pizza;
 	
 	public SpecialOffer() { }

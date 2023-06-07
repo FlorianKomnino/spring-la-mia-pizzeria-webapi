@@ -23,8 +23,9 @@ public class AuthConfig {
 	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 	    
 		return 
-			http.authorizeHttpRequests(a -> a
-			        .requestMatchers("/users/**").hasAnyAuthority("USER", "ADMIN")
+			http.csrf(c -> c.disable())
+				.authorizeHttpRequests(a -> a
+					.requestMatchers("/users/**").hasAnyAuthority("USER", "ADMIN")
 			        .requestMatchers("/admin/**").hasAuthority("ADMIN")
 			        .requestMatchers("/**").permitAll()
 			).formLogin(f -> f.permitAll()

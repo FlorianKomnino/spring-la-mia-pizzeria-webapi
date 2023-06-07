@@ -3,8 +3,10 @@ package org.java.demo.pojo;
 import java.util.Arrays;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,6 +18,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Size;
 
 @Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Pizza {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,23 +34,20 @@ public class Pizza {
 	private Integer priceInCents;
 	
 	@OneToMany(mappedBy = "pizza")
-	@JsonManagedReference
 	private List<SpecialOffer> specialOffer;
 	
 	@ManyToMany
-	@JsonManagedReference
 	private List<Ingredient> ingredients;
 	
 	
 	public Pizza() { }
-	public Pizza(String name, String description, String imgUrl, Integer priceInCents, Ingredient... ingredients) {
+	
+	public Pizza(String name, String description, String imgUrl, Integer priceInCents) {
 		
 		setName(name);
 		setDescription(description);
 		setImgUrl(imgUrl);
 		setPriceInCents(priceInCents);
-		
-		setIngredients(ingredients);
 	}
 
 	
@@ -58,6 +58,7 @@ public class Pizza {
 		this.ingredients = ingredients;
 	}
 	
+	@JsonIgnore
 	public void setIngredients(Ingredient[] ingredient) {
 		
 		setIngredients(Arrays.asList(ingredient));
