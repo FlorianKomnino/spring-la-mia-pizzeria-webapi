@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -67,6 +68,17 @@ public class CustomApiController {
 		pizzaService.save(pizza);
 		
 		return new ResponseEntity<>(pizza, HttpStatus.OK);
+	}
+	
+	@DeleteMapping("/pizzas/delete/{id}")
+	public String deletePizza(@PathVariable("id") Integer id) {
+		
+		Optional<Pizza> pizzaOpt = pizzaService.findById(id);
+		Pizza pizza = pizzaOpt.get();
+		
+		pizzaService.deletePizza(pizza);
+	
+		return "Pizza eliminata con successo!";
 	}
 	
 }

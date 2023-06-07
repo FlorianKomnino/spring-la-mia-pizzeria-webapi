@@ -73,6 +73,16 @@ public class Ingredient {
 		return "ID [" + getId() + "] - Nome: "
 				+ getName();
 	}
-
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof Pizza)) return false;
+		Pizza pizzaObj = (Pizza) obj;
+		return getId() == pizzaObj.getId();
+	}
+	
+	@Override
+	public int hashCode() {
+		return getId();
+	}
 	
 }

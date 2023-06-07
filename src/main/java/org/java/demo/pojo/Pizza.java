@@ -5,9 +5,9 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -33,7 +33,7 @@ public class Pizza {
 	@Min(value = 100, message = "Il costo deve essere di almeno 100 centesimi")
 	private Integer priceInCents;
 	
-	@OneToMany(mappedBy = "pizza")
+	@OneToMany(mappedBy = "pizza", cascade = CascadeType.ALL)
 	private List<SpecialOffer> specialOffer;
 	
 	@ManyToMany
@@ -113,5 +113,17 @@ public class Pizza {
 				+ "\nDescrizione: " + getDescription()
 				+ "\nPrezzo: " + priceInFloat()
 				+ "\n-------------------------";
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof Pizza)) return false;
+		Pizza pizzaObj = (Pizza) obj;
+		return getId() == pizzaObj.getId();
+	}
+	
+	@Override
+	public int hashCode() {
+		return getId();
 	}
 }
