@@ -1,17 +1,13 @@
 package org.java.demo.api.controller;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import org.java.demo.pojo.Ingredient;
 import org.java.demo.pojo.Pizza;
-import org.java.demo.pojo.SpecialOffer;
 import org.java.demo.service.PizzaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,52 +21,50 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @CrossOrigin
 @RequestMapping("/api/v1")
-public class CustomApiController {
-
+public class CustomRestApiController {
+	
 	@Autowired
 	private PizzaService pizzaService;
 	
-	@GetMapping("/pizzas") 
-	public ResponseEntity<List<Pizza>> pizzasList() {
-		List<Pizza> pizzas = pizzaService.findAll();
+	@GetMapping("/hello")
+	public ResponseEntity<String> helloUniverse() {
 		
+		return new ResponseEntity<>("Hello Universe!", HttpStatus.OK);
+	}
+	
+	@GetMapping("/ourPizzas") 
+	public ResponseEntity<List<Pizza>> pizzasList() {
+
+		List<Pizza> pizzas = pizzaService.findAll();
 		return new ResponseEntity<>(pizzas, HttpStatus.OK);
 	}
 	
-	@GetMapping("pizzas/search")
-	public ResponseEntity<List<Pizza>> pizzaSearch(String name) {
-				
-		List<Pizza> foundPizzas = pizzaService.findByName(name);
-		
-		return new ResponseEntity<>(foundPizzas, HttpStatus.OK);
+	@PostMapping("/ourPizzas") 
+	public ResponseEntity<List<Pizza>> pizzasSearchedList(@RequestBody(required = false) String userSearch) {
+
+		if(userSearch == null || userSearch == "") {
+
+			List<Pizza> pizzas = pizzaService.findAll();
+			return new ResponseEntity<>(pizzas, HttpStatus.OK);
+		} else {
+			
+			System.out.println(userSearch);
+			String stringToSearch = userSearch.substring(0, userSearch.length()-1);
+			System.out.println(stringToSearch);
+			List<Pizza> pizzas = pizzaService.findByName(stringToSearch);
+			return new ResponseEntity<>(pizzas, HttpStatus.OK);
+		}
 	}
 	
-	@GetMapping("/pizzas/{id}")
-	public ResponseEntity<Pizza> findPizzaById(
-			@PathVariable("id") Integer id
-			) {
-		Optional<Pizza> optPizza = pizzaService.findById(id);
-		Pizza pizza = optPizza.get();
-		
-		return new ResponseEntity<>(pizza, HttpStatus.OK);
-	}
 	
-	@PostMapping("/pizzas/create")
-	public ResponseEntity<Pizza> createPizza(@RequestBody Pizza pizza) {
+	@PostMapping("/ourPizzas/create")
+	public ResponseEntity<Pizza> createByVue(@RequestBody Pizza pizza) {
 		
 		pizzaService.save(pizza);
 		return new ResponseEntity<>(pizza, HttpStatus.OK);
 	}
 	
-	@PostMapping("/pizzas/update/{id}")
-	public ResponseEntity<Pizza> updatePizza(@PathVariable("id") Integer id, @RequestBody Pizza pizza) {
-		
-		pizzaService.save(pizza);
-		
-		return new ResponseEntity<>(pizza, HttpStatus.OK);
-	}
-	
-	@DeleteMapping("/pizzas/delete/{id}")
+	@DeleteMapping("/ourPizzas/delete/{id}")
 	public String deletePizza(@PathVariable("id") Integer id) {
 		
 		Optional<Pizza> pizzaOpt = pizzaService.findById(id);
@@ -81,5 +75,4 @@ public class CustomApiController {
 	
 		return "Pizza eliminata con successo!";
 	}
-	
 }

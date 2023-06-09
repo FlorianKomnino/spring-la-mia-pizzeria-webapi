@@ -65,9 +65,19 @@ public class PizzaPlaceApplication implements CommandLineRunner {
 		userService.save(userUser);
 		userService.save(adminUser);
 		
+		Ingredient i1 = new Ingredient("Salsa di pomodoro");
+		Ingredient i2 = new Ingredient("Basilico");
+		Ingredient i3 = new Ingredient("Mozzarella");
+		Ingredient i4 = new Ingredient("Cipolla");
+		
+		ingredientService.save(i1);
+		ingredientService.save(i2);
+		ingredientService.save(i3);
+		ingredientService.save(i4);
+
 		//Creation of pizzas
-		Pizza p1 = new Pizza("Margherita", "La tipica pizza della regina" , "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Pizza_Margherita_stu_spivack.jpg/390px-Pizza_Margherita_stu_spivack.jpg", 750);
-		Pizza p2 = new Pizza("Diavola", "La tipica pizza al salamino piccante" , "https://www.negroni.com/sites/negroni.com/files/styles/scale__1440_x_1440_/public/pizza_rustica.jpg?itok=Lbp_jtZW", 750);
+		Pizza p1 = new Pizza("Margherita", "La tipica pizza della regina" , "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Pizza_Margherita_stu_spivack.jpg/390px-Pizza_Margherita_stu_spivack.jpg", 750, i1);
+		Pizza p2 = new Pizza("Diavola", "La tipica pizza al salamino piccante" , "https://www.negroni.com/sites/negroni.com/files/styles/scale__1440_x_1440_/public/pizza_rustica.jpg?itok=Lbp_jtZW", 750, i2);
 		Pizza p3 = new Pizza("4 stagioni", "Pizza con condimento tipico di varia stagionatura" , "https://cdn.cook.stbm.it/thumbnails/ricette/144/144880/hd750x421.jpg", 750);
 		Pizza p4 = new Pizza("Salsiccia", "Indovina...pizza alla salsiccia" , "https://blog.giallozafferano.it/loscrignodelbuongusto/wp-content/uploads/2020/06/5-7.jpg", 750);
 		Pizza p5 = new Pizza("Salsiccia Gorgo e Cipolla", "La pizza migliore di sempre" , "https://media-cdn.tripadvisor.com/media/photo-f/07/aa/d5/2d/pizza-con-gorgonzola.jpg", 750);
@@ -89,15 +99,6 @@ public class PizzaPlaceApplication implements CommandLineRunner {
 		specialOfferService.save(spec3);
 		specialOfferService.save(spec4);
 		
-		Ingredient i1 = new Ingredient("Salsa di pomodoro");
-		Ingredient i2 = new Ingredient("Basilico");
-		Ingredient i3 = new Ingredient("Mozzarella");
-		Ingredient i4 = new Ingredient("Cipolla");
-
-		ingredientService.save(i1);
-		ingredientService.save(i2);
-		ingredientService.save(i3);
-		ingredientService.save(i4);
 		
 		List<Pizza> pizzas = pizzaService.findAll();
 		

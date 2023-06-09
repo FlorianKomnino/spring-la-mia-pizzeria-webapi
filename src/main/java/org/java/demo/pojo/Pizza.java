@@ -3,9 +3,7 @@ package org.java.demo.pojo;
 import java.util.Arrays;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.JsonSetter;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -18,7 +16,6 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Size;
 
 @Entity
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Pizza {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,23 +39,24 @@ public class Pizza {
 	
 	public Pizza() { }
 	
-	public Pizza(String name, String description, String imgUrl, Integer priceInCents) {
+	public Pizza(String name, String description, String imgUrl, Integer priceInCents, Ingredient...ingredients) {
 		
 		setName(name);
 		setDescription(description);
 		setImgUrl(imgUrl);
 		setPriceInCents(priceInCents);
+		
+		setIngredients(ingredients);
 	}
 
 	
 	public List<Ingredient> getIngredients() {
 		return ingredients;
 	}
+	@JsonSetter
 	public void setIngredients(List<Ingredient> ingredients) {
 		this.ingredients = ingredients;
 	}
-	
-	@JsonIgnore
 	public void setIngredients(Ingredient[] ingredient) {
 		
 		setIngredients(Arrays.asList(ingredient));

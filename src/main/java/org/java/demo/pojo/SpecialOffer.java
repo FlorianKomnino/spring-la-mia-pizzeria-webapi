@@ -20,7 +20,6 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Size;
 
 @Entity
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class SpecialOffer {
 
 	
@@ -42,6 +41,7 @@ public class SpecialOffer {
 	
 	@ManyToOne
 	@JoinColumn(nullable = false)
+	@JsonBackReference
 	private Pizza pizza;
 	
 	public SpecialOffer() { }

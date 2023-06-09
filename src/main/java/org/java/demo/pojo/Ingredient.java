@@ -14,7 +14,6 @@ import jakarta.persistence.ManyToMany;
 import jakarta.validation.constraints.Size;
 
 @Entity
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Ingredient {
 
 	@Id
@@ -26,6 +25,7 @@ public class Ingredient {
 	private String imgUrl;
 	
 	@ManyToMany(mappedBy = "ingredients")
+	@JsonBackReference
 	private List<Pizza> pizzas;
 	
 	public Ingredient() { }
